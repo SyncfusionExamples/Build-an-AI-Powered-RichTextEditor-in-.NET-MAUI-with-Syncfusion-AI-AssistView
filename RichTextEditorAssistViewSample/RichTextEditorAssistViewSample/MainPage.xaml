@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RichTextEditorAssistViewSample.MainPage"
+             xmlns:local="clr-namespace:RichTextEditorAssistViewSample"
+             xmlns:rte="clr-namespace:Syncfusion.Maui.RichTextEditor;assembly=Syncfusion.Maui.RichTextEditor"
+             xmlns:aiassistview="clr-namespace:Syncfusion.Maui.AIAssistView;assembly=Syncfusion.Maui.AIAssistView">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="headerTemplate">
+                <StackLayout HorizontalOptions="Center"
+                             Padding="10">
+                    <Label Text="&#xe7e1;"
+                           FontFamily="MauiSampleFontIcon"
+                           FontSize="20"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                    <Label Text="How can I help you?"
+                           FontAttributes="Bold"
+                           FontSize="16"
+                           VerticalOptions="Center" />
+                </StackLayout>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid x:Name="layout"
+          Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+        <rte:SfRichTextEditor Grid.Column="0"
+                              Grid.ColumnSpan="2"
+                              x:Name="Editor"
+                              ShowToolbar="True"
+                              HtmlText="{Binding EditorHtml, Mode=TwoWay}" />
+
+        <Border x:Name="headerView"
+                Grid.Column="1"
+                IsVisible="False"
+                Margin="0,50"
+                VerticalOptions="Start"
+                StrokeThickness="0.4"
+                Stroke="Gray">
+            <Grid RowDefinitions="auto,auto">
+                <Grid ColumnDefinitions="*,Auto"
+                      HeightRequest="50">
+                    <Label Text="AI Assistant"
+                           Grid.Column="0"
+                           FontSize="16"
+                           FontFamily="Roboto-Medium"
+                           Padding="16,0,0,0"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center" />
+                    <Button x:Name="close"
+                            Grid.Column="1"
+                            BorderWidth="0"
+                            CornerRadius="20"
+                            HeightRequest="{OnPlatform WinUI= 30, MacCatalyst=40, Android=30, iOS=40}"
+                            WidthRequest="{OnPlatform WinUI= 30, MacCatalyst=40, Android=30, iOS=40}"
+                            FontSize="15"
+                            Text="&#xe70b;"
+                            TextColor="Black"
+                            HorizontalOptions="End"
+                            Clicked="close_Clicked"
+                            FontFamily="MauiMaterialAssets"
+                            BackgroundColor="#CAC4D0"
+                            ToolTipProperties.Text="Close"
+                            Padding="0"
+                            Margin="0,0,14,0">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor"
+                                                    Value="Transparent" />
+                                            <Setter Property="Opacity"
+                                                    Value="1" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#14000000" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#14000000" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </Button>
+                </Grid>
+                <BoxView Grid.Row="1"
+                         HeightRequest="1"
+                         BackgroundColor="{AppThemeBinding Light=#CAC4D0, Dark=#CAC4D0}" />
+            </Grid>
+        </Border>
+
+        <aiassistview:SfAIAssistView x:Name="AssistView"
+                                     Grid.Column="1"
+                                     HeightRequest="500"
+                                     WidthRequest="377"
+                                     ShowHeader="True"
+                                     Margin="0,102,0,0"
+                                     IsVisible="False"
+                                     HeaderTemplate="{StaticResource headerTemplate}"
+                                     AssistItems="{Binding AssistItems}"
+                                     Suggestions="{Binding Suggestions}"
+                                     SuggestionItemSelectedCommand="{Binding SuggestionItemSelectedCommand}"
+                                     VerticalOptions="Fill"
+                                     HorizontalOptions="Fill">
+            <aiassistview:SfAIAssistView.Shadow>
+                <Shadow Brush="Black"
+                        Offset="0,0"
+                        Radius="1"
+                        Opacity="0.5" />
+            </aiassistview:SfAIAssistView.Shadow>
+        </aiassistview:SfAIAssistView>
+
+        <Button x:Name="AiButton"
+                Grid.Column="1"
+                Text="&#xe7e1;"
+                FontFamily="MauiSampleFontIcon"
+                FontSize="18"
+                ToolTipProperties.Text="Click to open AI assistant"
+                IsVisible="True"
+                FontAttributes="Bold"
+                VerticalOptions="{OnPlatform Android=End, iOS=End, Default=Start}"
+                HorizontalOptions="End"
+                Margin="{OnPlatform iOS='0,0,20,80', Android='0,0,20,80', Default='0,4,10,0'}"
+                Clicked="Button_Clicked" />
+    </Grid>
+
+</ContentPage>

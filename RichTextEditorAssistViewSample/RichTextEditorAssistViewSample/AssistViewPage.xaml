@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RichTextEditorAssistViewSample.AssistViewPage"
+             xmlns:aiassistview="clr-namespace:Syncfusion.Maui.AIAssistView;assembly=Syncfusion.Maui.AIAssistView"
+             Title="AssistViewPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="headerTemplate">
+                <StackLayout HorizontalOptions="Center"
+                             Padding="10">
+                    <Label Text="&#xe7e1;"
+                           FontFamily="MauiSampleFontIcon"
+                           FontSize="20"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                    <Label Text="How can I help you?"
+                           FontAttributes="Bold"
+                           FontSize="16"
+                           VerticalOptions="Center" />
+                </StackLayout>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <Grid Padding="16">
+        <aiassistview:SfAIAssistView x:Name="AssistView"
+                                     ShowHeader="True"
+                                     HeaderTemplate="{StaticResource headerTemplate}"
+                                     AssistItems="{Binding AssistItems}"
+                                     Suggestions="{Binding Suggestions}"
+                                     SuggestionItemSelectedCommand="{Binding SuggestionItemSelectedCommand}"
+                                     VerticalOptions="Fill"
+                                     HorizontalOptions="Fill">
+            <aiassistview:SfAIAssistView.Shadow>
+                <Shadow Brush="Black"
+                        Offset="0,0"
+                        Radius="1"
+                        Opacity="0.5" />
+            </aiassistview:SfAIAssistView.Shadow>
+        </aiassistview:SfAIAssistView>
+    </Grid>
+</ContentPage>
