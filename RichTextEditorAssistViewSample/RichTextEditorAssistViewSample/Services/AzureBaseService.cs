@@ -131,14 +131,9 @@ namespace RichTextEditorAssistViewSample
         /// </summary>
         private void GetAzureOpenAIKernal()
         {
-            try
-            {
-                var client = new AzureOpenAIClient(new Uri(endpoint), new AzureKeyCredential(key)).AsChatClient(modelId: deploymentName);
-                this.Client = client;
-            }
-            catch (Exception)
-            {
-            }
+            var client = new AzureOpenAIClient(new Uri(endpoint), new AzureKeyCredential(key))
+                      .AsChatClient(modelId: deploymentName);
+            this.Client = client;
         }
         #endregion
 
