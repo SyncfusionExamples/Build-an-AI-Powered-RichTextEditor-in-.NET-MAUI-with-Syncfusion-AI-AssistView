@@ -5,25 +5,34 @@
 
     public partial class MainPage : ContentPage
     {
+        #region Field
         /// <summary>
         /// Represents the view model used to manage the state and behavior of the assist view.
         /// </summary>
         AssistViewViewModel assistViewViewModel;
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the MainPage class.
+        /// </summary>
         public MainPage()
         {
             InitializeComponent();
             assistViewViewModel = new AssistViewViewModel();
             this.BindingContext = assistViewViewModel;
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Handles the click event for the button, performing platform-specific navigation or UI updates in response to
         /// user interaction.
         /// </summary>
         private async void Button_Clicked(object sender, EventArgs e)
         {
-#if ANDROID || IOS
-            // On Android, navigate to a dedicated page showing the AssistView
+#if ANDROID || (IOS && !MACCATALYST)
+            // On Android and iOS, navigate to a dedicated page showing the AssistView
             var navParams = new Dictionary<string, object>
             {
                 { "vm", assistViewViewModel }
@@ -46,5 +55,6 @@
             headerView.IsVisible = false;
             AssistView.IsVisible = false;
         }
+        #endregion
     }
 }

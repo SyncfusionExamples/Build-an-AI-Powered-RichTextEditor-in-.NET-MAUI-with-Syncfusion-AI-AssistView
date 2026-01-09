@@ -53,6 +53,7 @@ namespace RichTextEditorAssistViewSample
         }
         #endregion
 
+        #region Properties
         /// <summary>
         /// Gets or sets the collection of assist items associated with this instance.
         /// </summary>
@@ -102,7 +103,9 @@ namespace RichTextEditorAssistViewSample
                 this.suggestionItemSelectedCommand = value;
             }
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Handles the tap event for a suggestion item, executing the appropriate action based on the selected
         /// suggestion.
@@ -152,7 +155,6 @@ namespace RichTextEditorAssistViewSample
                         break;
                     }
             }
-
         }
 
         /// <summary>
@@ -203,7 +205,7 @@ namespace RichTextEditorAssistViewSample
             if (request != null)
             {
                 var userAIPrompt = GetUserAIPrompt(request.Text, EditorHtml);
-                var response = await azureAIService!.GetResultsFromAI(request.Text, userAIPrompt).ConfigureAwait(true);
+                var response = await azureAIService!.GetResultsFromAI(userAIPrompt).ConfigureAwait(true);
                 response = response.Replace("\n", "<br>");
                 AssistItem responseItem = new AssistItem() { Text = response, Suggestion = GetAcceptSuggestion() };
                 responseItem.RequestItem = inputQuery;
@@ -295,9 +297,9 @@ namespace RichTextEditorAssistViewSample
 
         private static string StripHtml(string html) =>
             string.IsNullOrEmpty(html) ? string.Empty : Regex.Replace(html, "<.*?>", string.Empty);
+        #endregion
 
         #region PropertyChanged
-
         /// <summary>
         /// Property changed handler.
         /// </summary>
@@ -314,7 +316,6 @@ namespace RichTextEditorAssistViewSample
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
-
         #endregion
     }
 }
