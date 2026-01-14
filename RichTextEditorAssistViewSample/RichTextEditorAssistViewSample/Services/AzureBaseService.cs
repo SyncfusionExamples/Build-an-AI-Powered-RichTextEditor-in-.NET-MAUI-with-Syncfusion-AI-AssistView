@@ -10,6 +10,7 @@ namespace RichTextEditorAssistViewSample
     public abstract class AzureBaseService
     {
         #region Fields
+
         /// <summary>
         /// The EndPoint
         /// </summary>
@@ -49,6 +50,7 @@ namespace RichTextEditorAssistViewSample
         /// The already credential validated field
         /// </summary>
         private static bool isAlreadyValidated = false;
+
         #endregion
 
         public AzureBaseService()
@@ -57,6 +59,7 @@ namespace RichTextEditorAssistViewSample
         }
 
         #region Properties
+
         /// <summary>
         /// Gets or Set a value indicating whether an credentials are valid or not.
         /// </summary>
@@ -72,9 +75,11 @@ namespace RichTextEditorAssistViewSample
                 }
             }
         }
+
         #endregion
 
         #region Private Methods
+
         /// <summary>
         /// Validate Azure Credentials
         /// </summary>
@@ -123,9 +128,11 @@ namespace RichTextEditorAssistViewSample
 #endif
             }
         }
+
         #endregion
 
         #region Azure OpenAI
+
         /// <summary>
         /// To get the Azure open ai kernal method
         /// </summary>
@@ -135,9 +142,11 @@ namespace RichTextEditorAssistViewSample
                       .AsChatClient(modelId: deploymentName);
             this.Client = client;
         }
+
         #endregion
 
         #region Events
+
         /// <summary>
         /// Represents the method that will handle IsCredentialValid change event.
         /// </summary>
@@ -147,6 +156,7 @@ namespace RichTextEditorAssistViewSample
         /// Represents the event when IsCredentialValid value is changed.
         /// </summary>
         internal static event CredentialValidated? OnCredentialChanged;
+
         #endregion
 
     }

@@ -4,23 +4,28 @@ namespace RichTextEditorAssistViewSample;
 public partial class AssistViewPage : ContentPage
 {
     #region Field
+
     /// <summary>
     /// Field to hold the ViewModel instance.
     /// </summary>
     private AssistViewViewModel? viewModel;
+
     #endregion
 
     #region Constructor
+
     /// <summary>
     /// Initializes a new instance of the AssistViewPage class.
     /// </summary>
     public AssistViewPage()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
+
     #endregion
 
     #region Properties
+
     /// <summary>
     /// Gets or sets the view model associated with the assist view.
     /// </summary>
@@ -33,5 +38,6 @@ public partial class AssistViewPage : ContentPage
             BindingContext = viewModel;
         }
     }
+
     #endregion
 }

@@ -13,6 +13,7 @@ namespace RichTextEditorAssistViewSample
     public class AssistViewViewModel : INotifyPropertyChanged
     {
         #region Field
+
         /// <summary>
         /// Field to hold the collection of assist items.
         /// </summary>
@@ -37,9 +38,11 @@ namespace RichTextEditorAssistViewSample
         /// Field to hold the HTML markup for the editor content.
         /// </summary>
         private string editorHtml;
+
         #endregion
 
         #region Constructor
+
         public AssistViewViewModel()
         {
             azureAIService = new AzureAIService();
@@ -51,9 +54,11 @@ namespace RichTextEditorAssistViewSample
             };
             SuggestionItemSelectedCommand = new Command(OnSuggestionTapCommand);
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// Gets or sets the collection of assist items associated with this instance.
         /// </summary>
@@ -103,9 +108,11 @@ namespace RichTextEditorAssistViewSample
                 this.suggestionItemSelectedCommand = value;
             }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Handles the tap event for a suggestion item, executing the appropriate action based on the selected
         /// suggestion.
@@ -297,9 +304,11 @@ namespace RichTextEditorAssistViewSample
 
         private static string StripHtml(string html) =>
             string.IsNullOrEmpty(html) ? string.Empty : Regex.Replace(html, "<.*?>", string.Empty);
+
         #endregion
 
         #region PropertyChanged
+
         /// <summary>
         /// Property changed handler.
         /// </summary>
@@ -316,6 +325,7 @@ namespace RichTextEditorAssistViewSample
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
+
         #endregion
     }
 }

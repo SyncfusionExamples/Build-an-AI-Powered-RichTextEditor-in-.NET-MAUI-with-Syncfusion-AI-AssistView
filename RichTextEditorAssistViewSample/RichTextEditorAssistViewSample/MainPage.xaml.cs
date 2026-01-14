@@ -6,13 +6,16 @@
     public partial class MainPage : ContentPage
     {
         #region Field
+
         /// <summary>
         /// Represents the view model used to manage the state and behavior of the assist view.
         /// </summary>
         AssistViewViewModel assistViewViewModel;
+
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Initializes a new instance of the MainPage class.
         /// </summary>
@@ -22,9 +25,11 @@
             assistViewViewModel = new AssistViewViewModel();
             this.BindingContext = assistViewViewModel;
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Handles the click event for the button, performing platform-specific navigation or UI updates in response to
         /// user interaction.
@@ -55,6 +60,7 @@
             headerView.IsVisible = false;
             AssistView.IsVisible = false;
         }
+
         #endregion
     }
 }
