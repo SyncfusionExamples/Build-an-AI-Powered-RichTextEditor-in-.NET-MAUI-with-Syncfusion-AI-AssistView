@@ -50,7 +50,9 @@ namespace RichTextEditorAssistViewSample
             _suggestions = new ObservableCollection<ISuggestion>
             {
                 new AssistSuggestion { Text = "Paraphraser" },
-                new AssistSuggestion { Text = "Grammer Checker" }
+                new AssistSuggestion { Text = "Grammer Checker" },
+                new AssistSuggestion { Text = "Elaborate" },
+                new AssistSuggestion { Text = "Shorten" }
             };
             SuggestionItemSelectedCommand = new Command(OnSuggestionTapCommand);
         }
@@ -152,7 +154,20 @@ namespace RichTextEditorAssistViewSample
                         await GetResult(request).ConfigureAwait(true);
                         break;
                     }
-
+                case "Elaborate":
+                    {
+                        var request = new AssistItem { Text = s.Text, IsRequested = true };
+                        AssistItems.Add(request);
+                        await GetResult(request).ConfigureAwait(true);
+                        break;
+                    }
+                case "Shorten":
+                    {
+                        var request = new AssistItem { Text = s.Text, IsRequested = true };
+                        AssistItems.Add(request);
+                        await GetResult(request).ConfigureAwait(true);
+                        break;
+                    }
                 case "Accept":
                     {
                         if (args.RequestItem is AssistItem responseItem)
@@ -260,6 +275,32 @@ namespace RichTextEditorAssistViewSample
 
                        Text:
                        {{plain}}";
+            }
+            else if (string.Equals(userPrompt, "Elaborate", StringComparison.OrdinalIgnoreCase))
+            {
+                return $"Given user command: {userPrompt}.\n" +
+                       $"Source text (from editor):\n{editorPlainText}\n\n" +
+                       "Instructions:\n" +
+                       "- Elaborate the input text by expanding ideas, adding necessary clarifying details, and improving fluency while preserving the original meaning, intent, and facts.\n" +
+                       "- Correct any grammatical, punctuation, capitalization, and spacing errors introduced in the source.\n" +
+                       "- Do not introduce new factual assertions, examples, opinions, or entities that change the original meaning.\n" +
+                       "- Maintain the original tone unless the user explicitly requests a tone change; do not change sentence order except to improve clarity when absolutely necessary.\n" +
+                       "- Keep length roughly similar to the original; modest expansion is acceptable (e.g., up to ~30% longer) but avoid verbosity.\n" +
+                       "- Preserve paragraph and line breaks from the source unless a minor adjustment is required for grammatical correctness.\n" +
+                       "- OUTPUT: Return ONLY the elaborated and corrected text with no explanations, notes, or extra characters.";
+            }
+            else if (string.Equals(userPrompt, "Shorten", StringComparison.OrdinalIgnoreCase))
+            {
+                return $"Given user command: {userPrompt}.\n" +
+                       $"Source text (from editor):\n{editorPlainText}\n\n" +
+                       "Instructions:\n" +
+                       "- Shorten the input text by removing redundancy and tightening phrasing while fully preserving the original meaning, intent, and facts.\n" +
+                       "- Correct any grammatical, punctuation, capitalization, and spacing errors in the resulting shortened text.\n" +
+                       "- Do not omit essential details, change facts, or introduce new information that alters the meaning.\n" +
+                       "- Maintain the original tone unless the user explicitly requests a tone change; do not change sentence order except to improve clarity when absolutely necessary.\n" +
+                       "- Aim to make the text more concise—typically reducing length by roughly 20–40%—but keep it natural and readable.\n" +
+                       "- Preserve paragraph and line breaks from the source unless a minor adjustment is required for grammatical correctness.\n" +
+                       "- OUTPUT: Return ONLY the shortened and corrected text with no explanations, notes, or extra characters.";
             }
             else
             {
