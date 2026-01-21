@@ -131,13 +131,16 @@
                 Grid.Column="1"
                 Text="&#xe7e1;"
                 FontFamily="MauiSampleFontIcon"
-                FontSize="18"
+                FontSize="14"
+                Padding="2"
+                MinimumHeightRequest="40"
+                MinimumWidthRequest="40"
                 ToolTipProperties.Text="Click to open AI assistant"
                 IsVisible="True"
                 FontAttributes="Bold"
                 VerticalOptions="{OnPlatform Android=End, iOS=End, Default=Start}"
                 HorizontalOptions="End"
-                Margin="{OnPlatform iOS='0,0,20,80', Android='0,0,20,80', Default='0,4,10,0'}"
+                Margin="{OnPlatform iOS='0,0,20,80', Android='0,0,20,80', Default='0,6,10,0'}"
                 Clicked="Button_Clicked" />
     </Grid>
 
