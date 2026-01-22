@@ -34,7 +34,7 @@
         /// Handles the click event for the button, performing platform-specific navigation or UI updates in response to
         /// user interaction.
         /// </summary>
-        private async void Button_Clicked(object sender, EventArgs e)
+        private async void OnAIButtonClicked(object sender, EventArgs e)
         {
 #if ANDROID || (IOS && !MACCATALYST)
             // On Android and iOS, navigate to a dedicated page showing the AssistView
@@ -55,7 +55,7 @@
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void close_Clicked(object sender, EventArgs e)
+        private void OnCloseButtonClicked(object sender, EventArgs e)
         {
             headerView.IsVisible = false;
             AssistView.IsVisible = false;

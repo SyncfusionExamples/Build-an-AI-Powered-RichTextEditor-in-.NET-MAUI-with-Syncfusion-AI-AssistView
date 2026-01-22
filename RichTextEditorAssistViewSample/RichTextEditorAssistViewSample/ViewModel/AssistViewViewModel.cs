@@ -1,10 +1,6 @@
-﻿using Microsoft.Maui.Controls.Shapes;
-using Syncfusion.Maui.AIAssistView;
-using System;
-using System.Collections.Generic;
+﻿using Syncfusion.Maui.AIAssistView;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 
@@ -32,12 +28,12 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Field to hold the suggestion item selected command.
         /// </summary>
-        private ICommand suggestionItemSelectedCommand;
+        private ICommand suggestionItemSelectedCommand = null!;
 
         /// <summary>
         /// Field to hold the HTML markup for the editor content.
         /// </summary>
-        private string editorHtml;
+        private string editorHtml = string.Empty;
 
         #endregion
 
@@ -94,6 +90,9 @@ namespace RichTextEditorAssistViewSample
             }
         }
 
+        /// <summary>
+        /// Gets the collection of suggestions currently available.
+        /// </summary>
         public ObservableCollection<ISuggestion> Suggestions => _suggestions;
 
         /// <summary>
@@ -219,6 +218,7 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Processes the specified input query, retrieves a response from the AI service, and adds the result to the
         /// collection of assist items.
+        /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
         private async Task GetResult(object inputQuery)
         {
@@ -343,6 +343,10 @@ namespace RichTextEditorAssistViewSample
             return content.Contains("<") ? content : $"<p>{content.Replace("\n", "<br>")}</p>";
         }
 
+        /// <summary>
+        /// Removes all HTML tags from the specified string.
+        /// </summary>
+        /// <returns>A string with all HTML tags removed. Returns an empty string if the input is null or empty.</returns>
         private static string StripHtml(string html) =>
             string.IsNullOrEmpty(html) ? string.Empty : Regex.Replace(html, "<.*?>", string.Empty);
 
@@ -353,7 +357,7 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Property changed handler.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when property is changed.

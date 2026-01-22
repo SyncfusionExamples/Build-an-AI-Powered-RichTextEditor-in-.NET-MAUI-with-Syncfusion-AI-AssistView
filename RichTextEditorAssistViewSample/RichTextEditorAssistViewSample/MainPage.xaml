@@ -66,7 +66,7 @@
                                 Text="&#xe70b;"
                                 TextColor="Black"
                                 HorizontalOptions="End"
-                                Clicked="close_Clicked"
+                                Clicked="OnCloseButtonClicked"
                                 FontFamily="MauiMaterialAssets"
                                 BackgroundColor="#CAC4D0"
                                 ToolTipProperties.Text="Close"
@@ -141,7 +141,7 @@
                 VerticalOptions="{OnPlatform Android=End, iOS=End, Default=Start}"
                 HorizontalOptions="End"
                 Margin="{OnPlatform iOS='0,0,20,80', Android='0,0,20,80', Default='0,6,10,0'}"
-                Clicked="Button_Clicked" />
+                Clicked="OnAIButtonClicked" />
     </Grid>
 
 </ContentPage>

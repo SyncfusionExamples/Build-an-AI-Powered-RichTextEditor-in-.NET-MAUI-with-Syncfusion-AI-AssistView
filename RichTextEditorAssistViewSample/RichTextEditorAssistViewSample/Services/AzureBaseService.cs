@@ -1,9 +1,6 @@
 ﻿using Azure;
 using Azure.AI.OpenAI;
 using Microsoft.Extensions.AI;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RichTextEditorAssistViewSample
 {
@@ -12,37 +9,37 @@ namespace RichTextEditorAssistViewSample
         #region Fields
 
         /// <summary>
-        /// The EndPoint
+        /// Field to store the endpoint value
         /// </summary>
         private const string endpoint = "END_POINT";
 
         /// <summary>
-        /// The Deployment name
+        /// Field to store the deployment name
         /// </summary>
         internal const string deploymentName = "DEPLOYMENT_NAME";
 
         /// <summary>
-        /// The Image Deployment name
+        /// Field to store the image deployment name
         /// </summary>
         internal const string imageDeploymentName = "IMAGE_MODEL_NAME";
 
         /// <summary>
-        /// The API key
+        /// Field to store the api key value
         /// </summary>
         private const string key = "KEY";
 
         /// <summary>
-        /// The kernal
+        /// Field to store the chat client
         /// </summary>
         internal IChatClient? Client { get; set; }
 
         /// <summary>
-        /// The chat histroy
+        /// Field to store the chat history
         /// </summary>
         internal string? ChatHistory { get; set; }
 
         /// <summary>
-        /// The credential valid field
+        /// Field to store the is credential valid value
         /// </summary>
         private static bool _isCredentialValid = false;
 
@@ -167,11 +164,6 @@ namespace RichTextEditorAssistViewSample
     /// </summary>
     public class AzureAIService : AzureBaseService
     {
-        public AzureAIService()
-        {
-
-        }
-
         /// <summary>
         /// Method to get the results from AI service.
         /// </summary>
