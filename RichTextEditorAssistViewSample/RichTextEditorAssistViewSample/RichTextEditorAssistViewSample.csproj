@@ -59,7 +59,7 @@
 	<ItemGroup>
 		<PackageReference Include="Azure.AI.OpenAI" Version="*" />
 		<PackageReference Include="Azure.Identity" Version="*" />
-		<PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="*" />
+		<PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="9.0.1-preview.1.24570.5" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Essentials" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="*" />
