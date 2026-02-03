@@ -1,4 +1,4 @@
-# Build-an-AI-Assisted-RichTextEditor-in-.NET-MAUI-with-Syncfusion-SfAIAssistView
+# Build-an-AI-Powered-RichTextEditor-in-.NET-MAUI-with-Syncfusion-AI-AssistView
 
 This repository demonstrates how to build an AI‑assisted writing experience in .NET MAUI by integrating Syncfusion’s RichTextEditor with the AI AssistView component. It showcases paraphrasing, tone adjustments, grammar checks, elaboration, and shortening powered by an Azure OpenAI backend.
 
