@@ -65,6 +65,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="*" />
 		<PackageReference Include="Syncfusion.Maui.AIAssistView" Version="*" />
 		<PackageReference Include="Syncfusion.Maui.Core" Version="*" />
+		<PackageReference Include="Syncfusion.Maui.Inputs" Version="*" />
 		<PackageReference Include="Syncfusion.Maui.RichTextEditor" Version="*" />
 	</ItemGroup>
 </Project>

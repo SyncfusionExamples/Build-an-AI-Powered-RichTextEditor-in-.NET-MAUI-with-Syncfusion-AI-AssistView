@@ -20,6 +20,8 @@ public partial class AssistViewPage : ContentPage
     public AssistViewPage()
     {
         InitializeComponent();
+        ComboBoxViewModel comboBoxViewModel = new ComboBoxViewModel();
+        comboBox.ItemsSource = comboBoxViewModel.Features;
     }
 
     #endregion
@@ -37,6 +39,20 @@ public partial class AssistViewPage : ContentPage
             viewModel = value;
             BindingContext = viewModel;
         }
+    }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Method to handle selection changes in the combo box, updating the view model accordingly.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void comboBox_SelectionChanged(object sender, Syncfusion.Maui.Inputs.SelectionChangedEventArgs e)
+    {
+        this.viewModel.GetComboBoxSelection(e);
     }
 
     #endregion

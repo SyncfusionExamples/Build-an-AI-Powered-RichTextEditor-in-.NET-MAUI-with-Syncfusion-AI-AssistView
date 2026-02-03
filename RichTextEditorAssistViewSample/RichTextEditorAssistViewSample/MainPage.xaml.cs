@@ -24,6 +24,8 @@
             InitializeComponent();
             assistViewViewModel = new AssistViewViewModel();
             this.BindingContext = assistViewViewModel;
+            ComboBoxViewModel comboBoxViewModel = new ComboBoxViewModel();
+            comboBox.ItemsSource = comboBoxViewModel.Features;
         }
 
         #endregion
@@ -45,6 +47,9 @@
             await Shell.Current.GoToAsync(nameof(AssistViewPage), true, navParams);
 #else
             // Keep existing behavior (Windows and other platforms)
+            Grid.SetColumnSpan(richTextEditor, 1);
+            assistViewGrid.IsVisible = true;
+            AiButton.IsVisible = false;
             headerView.IsVisible = true;
             AssistView.IsVisible = true;
 #endif
@@ -57,8 +62,21 @@
         /// <param name="e"></param>
         private void OnCloseButtonClicked(object sender, EventArgs e)
         {
+            Grid.SetColumnSpan(richTextEditor, 2);
+            assistViewGrid.IsVisible = false;
             headerView.IsVisible = false;
             AssistView.IsVisible = false;
+            AiButton.IsVisible = true;
+        }
+
+        /// <summary>
+        /// Handles the SelectionChanged event of the ComboBox control.
+        /// </summary>
+        /// <param name="sender">The source of the event, typically the ComboBox whose selection has changed.</param>
+        /// <param name="e">A SelectionChangedEventArgs object that contains data about the selection change.</param>
+        private void comboBox_SelectionChanged(object sender, Syncfusion.Maui.Inputs.SelectionChangedEventArgs e)
+        {
+            this.assistViewViewModel.GetComboBoxSelection(e);
         }
 
         #endregion

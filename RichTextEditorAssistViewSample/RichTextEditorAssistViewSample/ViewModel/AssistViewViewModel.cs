@@ -125,12 +125,28 @@ namespace RichTextEditorAssistViewSample
 
             // We handle the flow ourselves (don’t show the built-in loader)
             args.CancelRequest = true;
+            if (s.Text == "Apply")
+            {
+                if (args.RequestItem is AssistItem responseItem)
+                {
+                    EditorHtml = EnsureHtml(responseItem.Text);
+                }
+            }
 
-            switch (s.Text)
+            ProcessInput(s.Text);
+        }
+
+        /// <summary>
+        /// Method to process the input query and perform actions based on its value.
+        /// </summary>
+        /// <param name="inputQuery"></param>
+        private async void ProcessInput(String inputQuery)
+        {
+            switch (inputQuery)
             {
                 case "Paraphraser":
                     {
-                        var request = new AssistItem { Text = s.Text, IsRequested = true };
+                        var request = new AssistItem { Text = inputQuery, IsRequested = true };
                         AssistItems.Add(request);
                         await GetResponseWithSuggestion(request).ConfigureAwait(true);
                         break;
@@ -141,38 +157,30 @@ namespace RichTextEditorAssistViewSample
                 case "Simple":
                 case "Academic":
                     {
-                        var request = new AssistItem { Text = s.Text, IsRequested = true };
+                        var request = new AssistItem { Text = inputQuery, IsRequested = true };
                         AssistItems.Add(request);
                         await GetResult(request).ConfigureAwait(true);
                         break;
                     }
                 case "Grammer Checker":
                     {
-                        var request = new AssistItem { Text = s.Text, IsRequested = true };
+                        var request = new AssistItem { Text = inputQuery, IsRequested = true };
                         AssistItems.Add(request);
                         await GetResult(request).ConfigureAwait(true);
                         break;
                     }
                 case "Elaborate":
                     {
-                        var request = new AssistItem { Text = s.Text, IsRequested = true };
+                        var request = new AssistItem { Text = inputQuery, IsRequested = true };
                         AssistItems.Add(request);
                         await GetResult(request).ConfigureAwait(true);
                         break;
                     }
                 case "Shorten":
                     {
-                        var request = new AssistItem { Text = s.Text, IsRequested = true };
+                        var request = new AssistItem { Text = inputQuery, IsRequested = true };
                         AssistItems.Add(request);
                         await GetResult(request).ConfigureAwait(true);
-                        break;
-                    }
-                case "Accept":
-                    {
-                        if (args.RequestItem is AssistItem responseItem)
-                        {
-                            EditorHtml = EnsureHtml(responseItem.Text);
-                        }
                         break;
                     }
             }
@@ -349,6 +357,29 @@ namespace RichTextEditorAssistViewSample
         /// <returns>A string with all HTML tags removed. Returns an empty string if the input is null or empty.</returns>
         private static string StripHtml(string html) =>
             string.IsNullOrEmpty(html) ? string.Empty : Regex.Replace(html, "<.*?>", string.Empty);
+
+        /// <summary>
+        /// Handles the selection change event for a ComboBox and processes the newly selected feature.
+        /// </summary>
+        /// <param name="e">The event data containing information about the selection change, including the items added and removed.</param>
+        public void GetComboBoxSelection(Syncfusion.Maui.Inputs.SelectionChangedEventArgs e)
+        {
+            if (e?.AddedItems == null || e.AddedItems.Count == 0)
+            {
+                return;
+            }
+
+            var selectedItem = e.AddedItems[0];
+            if (selectedItem == null || selectedItem is not Feature s)
+            {
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(s.FeatureName))
+            {
+                ProcessInput(s.FeatureName);
+            }
+        }
 
         #endregion
 

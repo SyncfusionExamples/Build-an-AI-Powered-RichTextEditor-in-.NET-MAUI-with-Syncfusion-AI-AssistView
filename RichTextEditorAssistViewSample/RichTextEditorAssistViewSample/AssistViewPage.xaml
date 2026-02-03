@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RichTextEditorAssistViewSample.AssistViewPage"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              xmlns:aiassistview="clr-namespace:Syncfusion.Maui.AIAssistView;assembly=Syncfusion.Maui.AIAssistView"
              Title="AssistViewPage">
     <ContentPage.Resources>
@@ -22,9 +23,35 @@
             </DataTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    <Grid Padding="16">
+
+    <Grid Padding="0"
+          Grid.RowDefinitions="Auto,*">
+        <editors:SfComboBox x:Name="comboBox"
+                            Grid.Column="1"
+                            WidthRequest="35"
+                            HorizontalOptions="Start"
+                            ShowBorder="False"
+                            IsClearButtonVisible="False"
+                            SelectionChanged="comboBox_SelectionChanged"
+                            HeightRequest="10"
+                            DropdownWidth="140"
+                            DisplayMemberPath="FeatureName">
+            <editors:SfComboBox.DropDownButtonSettings>
+                <editors:DropDownButtonSettings Width="35"
+                                                Height="60">
+                    <editors:DropDownButtonSettings.View>
+                        <Label Text="&#xe748;"
+                               TextColor="Black"
+                               FontFamily="MauiMaterialAssets"
+                               FontSize="14"
+                               HorizontalTextAlignment="Center"
+                               VerticalOptions="Center" />
+                    </editors:DropDownButtonSettings.View>
+                </editors:DropDownButtonSettings>
+            </editors:SfComboBox.DropDownButtonSettings>
+        </editors:SfComboBox>
         <aiassistview:SfAIAssistView x:Name="AssistView"
+                                     Grid.Row="1"
                                      ShowHeader="True"
                                      HeaderTemplate="{StaticResource headerTemplate}"
                                      AssistItems="{Binding AssistItems}"

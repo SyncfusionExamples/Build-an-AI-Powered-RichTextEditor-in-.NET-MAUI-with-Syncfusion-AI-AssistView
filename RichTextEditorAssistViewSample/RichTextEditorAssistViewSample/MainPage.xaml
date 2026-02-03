@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RichTextEditorAssistViewSample.MainPage"
              xmlns:local="clr-namespace:RichTextEditorAssistViewSample"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              xmlns:rte="clr-namespace:Syncfusion.Maui.RichTextEditor;assembly=Syncfusion.Maui.RichTextEditor"
              xmlns:aiassistview="clr-namespace:Syncfusion.Maui.AIAssistView;assembly=Syncfusion.Maui.AIAssistView">
 
@@ -24,30 +25,31 @@
             </DataTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
+
     <Grid x:Name="layout"
           Margin="5">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="7*" />
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="7.2*" />
+            <ColumnDefinition Width="2.8*" />
         </Grid.ColumnDefinitions>
 
         <rte:SfRichTextEditor Grid.Column="0"
                               Grid.ColumnSpan="2"
-                              x:Name="Editor"
+                              x:Name="richTextEditor"
                               ShowToolbar="True"
                               HtmlText="{Binding EditorHtml, Mode=TwoWay}" />
         <Grid Grid.Column="1"
-              RowDefinitions="Auto,*"
-              Margin="0,0,10,0"
-              WidthRequest="380">
+              x:Name="assistViewGrid"
+              HorizontalOptions="End"
+              RowDefinitions="Auto,*">
             <Border x:Name="headerView"
                     IsVisible="False"
-                    Margin="0,50,0,0"
                     VerticalOptions="Start"
-                    StrokeThickness="0.4"
+                    StrokeThickness="0.5"
                     Stroke="Gray">
                 <Grid RowDefinitions="auto,auto">
-                    <Grid ColumnDefinitions="*,Auto"
+                    <Grid ColumnDefinitions="*,Auto,Auto"
+                          Background="White"
                           HeightRequest="50">
                         <Label Text="AI Assistant"
                                Grid.Column="0"
@@ -57,7 +59,7 @@
                                FontAttributes="Bold"
                                VerticalOptions="Center" />
                         <Button x:Name="close"
-                                Grid.Column="1"
+                                Grid.Column="2"
                                 BorderWidth="0"
                                 CornerRadius="20"
                                 HeightRequest="{OnPlatform WinUI= 30, MacCatalyst=40, Android=30, iOS=40}"
@@ -99,10 +101,36 @@
                                 </VisualStateGroupList>
                             </VisualStateManager.VisualStateGroups>
                         </Button>
+
+                        <editors:SfComboBox x:Name="comboBox"
+                                            Grid.Column="1"
+                                            WidthRequest="35"
+                                            ShowBorder="False"
+                                            Margin="{OnPlatform Default= '0,0,0,0', MacCatalyst='0,0,10,0'}"
+                                            IsClearButtonVisible="False"
+                                            SelectionChanged="comboBox_SelectionChanged"
+                                            HeightRequest="10"
+                                            DropdownWidth="140"
+                                            DisplayMemberPath="FeatureName">
+                            <editors:SfComboBox.DropDownButtonSettings>
+                                <editors:DropDownButtonSettings Width="35"
+                                                                Height="60">
+                                    <editors:DropDownButtonSettings.View>
+                                        <Label Text="&#xe748;"
+                                               TextColor="Black"
+                                               FontFamily="MauiMaterialAssets"
+                                               FontSize="14"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalOptions="Center" />
+                                    </editors:DropDownButtonSettings.View>
+                                </editors:DropDownButtonSettings>
+                            </editors:SfComboBox.DropDownButtonSettings>
+                        </editors:SfComboBox>
+
                     </Grid>
                     <BoxView Grid.Row="1"
-                             HeightRequest="1"
-                             BackgroundColor="{AppThemeBinding Light=#CAC4D0, Dark=#CAC4D0}" />
+                             HeightRequest="0.5"
+                             Background="Gray" />
                 </Grid>
             </Border>
 
@@ -110,8 +138,7 @@
                                          Grid.Row="1"
                                          ShowHeader="True"
                                          IsVisible="False"
-                                         WidthRequest="377"
-                                         HeightRequest="500"
+                                         HeightRequest="540"
                                          HeaderTemplate="{StaticResource headerTemplate}"
                                          AssistItems="{Binding AssistItems}"
                                          Suggestions="{Binding Suggestions}"
