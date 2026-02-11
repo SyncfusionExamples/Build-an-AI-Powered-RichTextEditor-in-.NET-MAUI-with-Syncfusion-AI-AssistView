@@ -314,6 +314,7 @@ namespace RichTextEditorAssistViewSample
                        - Correct ONLY grammar, spelling, subject–verb, punctuation, pronouns, capitalization, and spacing.
                        - Do NOT rephrase, simplify, or change wording, synonyms, tone, style, or sentence order.
                        - Keep all original meaning and structure.
+                       - If the input is single word and it is misspelled, correct it; if it is correct, return input word as it is without additional words.
 
                        Scope (apply to every sentence in the paragraph, then check cross‑sentence consistency):
                        - Agreement: subject–verb, pronouns, number, person.

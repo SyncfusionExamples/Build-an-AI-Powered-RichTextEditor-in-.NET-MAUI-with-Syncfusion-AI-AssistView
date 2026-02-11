@@ -4,31 +4,34 @@
              x:Class="RichTextEditorAssistViewSample.AssistViewPage"
              xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              xmlns:aiassistview="clr-namespace:Syncfusion.Maui.AIAssistView;assembly=Syncfusion.Maui.AIAssistView"
+             x:Name="AssistViewContentPage"
              Title="AssistViewPage">
     <Shell.TitleView>
-        <editors:SfComboBox x:Name="comboBox"
-                            WidthRequest="35"
-                            HorizontalOptions="Start"
-                            ShowBorder="False"
-                            IsClearButtonVisible="False"
-                            SelectionChanged="comboBox_SelectionChanged"
-                            HeightRequest="35"
-                            DropdownWidth="140"
-                            DisplayMemberPath="FeatureName">
-            <editors:SfComboBox.DropDownButtonSettings>
-                <editors:DropDownButtonSettings Width="35"
-                                                Height="80">
-                    <editors:DropDownButtonSettings.View>
-                        <Label Text="&#xe748;"
-                               TextColor="Black"
-                               FontFamily="MauiMaterialAssets"
-                               FontSize="18"
-                               HorizontalTextAlignment="Center"
-                               VerticalOptions="Center" />
-                    </editors:DropDownButtonSettings.View>
-                </editors:DropDownButtonSettings>
-            </editors:SfComboBox.DropDownButtonSettings>
-        </editors:SfComboBox>
+        <Grid>
+            <editors:SfComboBox x:Name="comboBox"
+                                WidthRequest="35"
+                                HorizontalOptions="Start"
+                                ShowBorder="False"
+                                IsClearButtonVisible="False"
+                                SelectionChanged="comboBox_SelectionChanged"
+                                HeightRequest="35"
+                                DropdownWidth="140"
+                                DisplayMemberPath="FeatureName">
+                <editors:SfComboBox.DropDownButtonSettings>
+                    <editors:DropDownButtonSettings Width="35"
+                                                    Height="80">
+                        <editors:DropDownButtonSettings.View>
+                            <Label Text="&#xe748;"
+                                   TextColor="Black"
+                                   FontFamily="MauiMaterialAssets"
+                                   FontSize="18"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalOptions="Center" />
+                        </editors:DropDownButtonSettings.View>
+                    </editors:DropDownButtonSettings>
+                </editors:SfComboBox.DropDownButtonSettings>
+            </editors:SfComboBox>
+        </Grid>
     </Shell.TitleView>
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -55,7 +58,7 @@
                                 <Button x:Name="copyButton"
                                         Text="&#xe7A0;"
                                         FontSize="18"
-                                        Command="{Binding BindingContext.CopyCommand, Source={x:Reference AssistViewPage}}"
+                                        Command="{Binding BindingContext.CopyCommand, Source={x:Reference AssistViewContentPage}}"
                                         CommandParameter="{Binding}"
                                         BackgroundColor="Transparent"
                                         TextColor="Black"
@@ -63,7 +66,7 @@
                                 <Button x:Name="retryButton"
                                         Text="&#xe7A2;"
                                         TextColor="Black"
-                                        Command="{Binding BindingContext.RetryCommand, Source={x:Reference AssistViewPage}}"
+                                        Command="{Binding BindingContext.RetryCommand, Source={x:Reference AssistViewContentPage}}"
                                         CommandParameter="{Binding}"
                                         FontSize="18"
                                         BackgroundColor="Transparent"
@@ -75,7 +78,7 @@
                                         FontSize="14"
                                         BackgroundColor="Transparent"
                                         TextColor="#6750A4"
-                                        Command="{Binding BindingContext.ApplyCommand, Source={x:Reference AssistViewPage}}"
+                                        Command="{Binding BindingContext.ApplyCommand, Source={x:Reference AssistViewContentPage}}"
                                         CommandParameter="{Binding}"
                                         Padding="15,0,15,5"
                                         FontAttributes="Bold"
