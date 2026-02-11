@@ -5,6 +5,31 @@
              xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              xmlns:aiassistview="clr-namespace:Syncfusion.Maui.AIAssistView;assembly=Syncfusion.Maui.AIAssistView"
              Title="AssistViewPage">
+    <Shell.TitleView>
+        <editors:SfComboBox x:Name="comboBox"
+                            WidthRequest="35"
+                            HorizontalOptions="Start"
+                            ShowBorder="False"
+                            IsClearButtonVisible="False"
+                            SelectionChanged="comboBox_SelectionChanged"
+                            HeightRequest="35"
+                            DropdownWidth="140"
+                            DisplayMemberPath="FeatureName">
+            <editors:SfComboBox.DropDownButtonSettings>
+                <editors:DropDownButtonSettings Width="35"
+                                                Height="80">
+                    <editors:DropDownButtonSettings.View>
+                        <Label Text="&#xe748;"
+                               TextColor="Black"
+                               FontFamily="MauiMaterialAssets"
+                               FontSize="18"
+                               HorizontalTextAlignment="Center"
+                               VerticalOptions="Center" />
+                    </editors:DropDownButtonSettings.View>
+                </editors:DropDownButtonSettings>
+            </editors:SfComboBox.DropDownButtonSettings>
+        </editors:SfComboBox>
+    </Shell.TitleView>
     <ContentPage.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="headerTemplate">
@@ -21,50 +46,88 @@
                            VerticalOptions="Center" />
                 </StackLayout>
             </DataTemplate>
+
+            <Style TargetType="aiassistview:ResponseActionsView">
+                <Setter Property="ControlTemplate">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <HorizontalStackLayout Spacing="5">
+                                <Button x:Name="copyButton"
+                                        Text="&#xe7A0;"
+                                        FontSize="18"
+                                        Command="{Binding BindingContext.CopyCommand, Source={x:Reference AssistViewPage}}"
+                                        CommandParameter="{Binding}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="Black"
+                                        FontFamily="MauiMaterialAssets" />
+                                <Button x:Name="retryButton"
+                                        Text="&#xe7A2;"
+                                        TextColor="Black"
+                                        Command="{Binding BindingContext.RetryCommand, Source={x:Reference AssistViewPage}}"
+                                        CommandParameter="{Binding}"
+                                        FontSize="18"
+                                        BackgroundColor="Transparent"
+                                        FontFamily="MauiMaterialAssets" />
+                                <Button x:Name="applyButton"
+                                        Text="Apply"
+                                        CornerRadius="20"
+                                        WidthRequest="90"
+                                        FontSize="14"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#6750A4"
+                                        Command="{Binding BindingContext.ApplyCommand, Source={x:Reference AssistViewPage}}"
+                                        CommandParameter="{Binding}"
+                                        Padding="15,0,15,5"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="End">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor"
+                                                                Value="Transparent" />
+                                                        <Setter Property="Opacity"
+                                                                Value="1" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Pressed">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor"
+                                                                Value="#14000000" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="PointerOver">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor"
+                                                                Value="#14000000" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateGroupList>
+                                    </VisualStateManager.VisualStateGroups>
+                                </Button>
+                            </HorizontalStackLayout>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-
-    <Grid Padding="0"
-          Grid.RowDefinitions="Auto,*">
-        <editors:SfComboBox x:Name="comboBox"
-                            Grid.Column="1"
-                            WidthRequest="35"
-                            HorizontalOptions="Start"
-                            ShowBorder="False"
-                            IsClearButtonVisible="False"
-                            SelectionChanged="comboBox_SelectionChanged"
-                            HeightRequest="10"
-                            DropdownWidth="140"
-                            DisplayMemberPath="FeatureName">
-            <editors:SfComboBox.DropDownButtonSettings>
-                <editors:DropDownButtonSettings Width="35"
-                                                Height="60">
-                    <editors:DropDownButtonSettings.View>
-                        <Label Text="&#xe748;"
-                               TextColor="Black"
-                               FontFamily="MauiMaterialAssets"
-                               FontSize="14"
-                               HorizontalTextAlignment="Center"
-                               VerticalOptions="Center" />
-                    </editors:DropDownButtonSettings.View>
-                </editors:DropDownButtonSettings>
-            </editors:SfComboBox.DropDownButtonSettings>
-        </editors:SfComboBox>
-        <aiassistview:SfAIAssistView x:Name="AssistView"
-                                     Grid.Row="1"
-                                     ShowHeader="True"
-                                     HeaderTemplate="{StaticResource headerTemplate}"
-                                     AssistItems="{Binding AssistItems}"
-                                     Suggestions="{Binding Suggestions}"
-                                     SuggestionItemSelectedCommand="{Binding SuggestionItemSelectedCommand}"
-                                     VerticalOptions="Fill"
-                                     HorizontalOptions="Fill">
-            <aiassistview:SfAIAssistView.Shadow>
-                <Shadow Brush="Black"
-                        Offset="0,0"
-                        Radius="1"
-                        Opacity="0.5" />
-            </aiassistview:SfAIAssistView.Shadow>
-        </aiassistview:SfAIAssistView>
-    </Grid>
+    <aiassistview:SfAIAssistView x:Name="AssistView"
+                                 Grid.Row="1"
+                                 ShowHeader="True"
+                                 HeaderTemplate="{StaticResource headerTemplate}"
+                                 AssistItems="{Binding AssistItems}"
+                                 Suggestions="{Binding Suggestions}"
+                                 SuggestionItemSelectedCommand="{Binding SuggestionItemSelectedCommand}"
+                                 VerticalOptions="Fill"
+                                 HorizontalOptions="Fill">
+        <aiassistview:SfAIAssistView.Shadow>
+            <Shadow Brush="Black"
+                    Offset="0,0"
+                    Radius="1"
+                    Opacity="0.5" />
+        </aiassistview:SfAIAssistView.Shadow>
+    </aiassistview:SfAIAssistView>
 </ContentPage>

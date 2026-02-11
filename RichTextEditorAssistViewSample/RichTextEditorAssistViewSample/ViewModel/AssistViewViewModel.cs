@@ -6,6 +6,9 @@ using System.Windows.Input;
 
 namespace RichTextEditorAssistViewSample
 {
+    /// <summary>
+    /// Represents the view model for the Assist feature, providing properties, commands, and logic to manage assist items, suggestions, and user interactions within the editor interface.
+    /// </summary>
     public class AssistViewViewModel : INotifyPropertyChanged
     {
         #region Field
@@ -35,10 +38,18 @@ namespace RichTextEditorAssistViewSample
         /// </summary>
         private string editorHtml = string.Empty;
 
+        /// <summary>
+        /// Field to hold the current request item being processed.
+        /// </summary>
+        private IAssistItem? requestItem;
+
         #endregion
 
         #region Constructor
 
+        /// <summary>
+        /// Initializes a new instance of the AssistViewViewModel class with default assist items, suggestions, and command bindings.
+        /// </summary>
         public AssistViewViewModel()
         {
             azureAIService = new AzureAIService();
@@ -50,12 +61,31 @@ namespace RichTextEditorAssistViewSample
                 new AssistSuggestion { Text = "Elaborate" },
                 new AssistSuggestion { Text = "Shorten" }
             };
-            SuggestionItemSelectedCommand = new Command(OnSuggestionTapCommand);
+
+            this.SuggestionItemSelectedCommand = new Command(OnSuggestionTapCommand);
+            this.CopyCommand = new Command<object>(ExecuteCopyCommand);
+            this.RetryCommand = new Command<object>(ExecuteRetryCommand);
+            this.ApplyCommand = new Command<object>(ExecuteApplyCommand);
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the command that copies the selected content to the clipboard.
+        /// </summary>
+        public ICommand CopyCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the command that executes a retry operation.
+        /// </summary>
+        public ICommand RetryCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the command that applies the current changes or settings.
+        /// </summary>
+        public ICommand ApplyCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of assist items associated with this instance.
@@ -115,8 +145,45 @@ namespace RichTextEditorAssistViewSample
         #region Methods
 
         /// <summary>
-        /// Handles the tap event for a suggestion item, executing the appropriate action based on the selected
-        /// suggestion.
+        /// Method to execute the copy command, which copies the text of the selected assist item to the clipboard.
+        /// </summary>
+        /// <param name="obj"></param>
+        private void ExecuteApplyCommand(object obj)
+        {
+            if (obj is AssistItem assistItem && assistItem.Text != null)
+            {
+                EditorHtml = EnsureHtml(assistItem.Text);
+            }
+        }
+
+        /// <summary>
+        /// Copies the plain text content of the specified assist item to the clipboard, removing any HTML tags and non-breaking spaces.
+        /// </summary>
+        /// <param name="obj"></param>
+        private void ExecuteCopyCommand(object obj)
+        {
+            if (obj is AssistItem assistItem && assistItem.Text != null)
+            {
+                string text = assistItem.Text;
+                text = Regex.Replace(text, "<.*?>|&nbsp;", string.Empty);
+                Clipboard.SetTextAsync(text);
+            }
+        }
+
+        /// <summary>
+        /// Attempts to execute a retry operation for the specified assist item, if the provided object is compatible.
+        /// </summary>
+        private async void ExecuteRetryCommand(object obj)
+        {
+            if (obj is AssistItem assistItem && assistItem.RequestItem is IAssistItem item)
+            {
+                requestItem = item;
+                await this.GetResult(requestItem).ConfigureAwait(true);
+            }
+        }
+
+        /// <summary>
+        /// Handles the tap event for a suggestion item, executing the appropriate action based on the selected suggestion.
         /// </summary>
         private async void OnSuggestionTapCommand(object obj)
         {
@@ -125,14 +192,6 @@ namespace RichTextEditorAssistViewSample
 
             // We handle the flow ourselves (don’t show the built-in loader)
             args.CancelRequest = true;
-            if (s.Text == "Apply")
-            {
-                if (args.RequestItem is AssistItem responseItem)
-                {
-                    EditorHtml = EnsureHtml(responseItem.Text);
-                }
-            }
-
             ProcessInput(s.Text);
         }
 
@@ -142,53 +201,27 @@ namespace RichTextEditorAssistViewSample
         /// <param name="inputQuery"></param>
         private async void ProcessInput(String inputQuery)
         {
-            switch (inputQuery)
+            if (string.IsNullOrEmpty(inputQuery))
             {
-                case "Paraphraser":
-                    {
-                        var request = new AssistItem { Text = inputQuery, IsRequested = true };
-                        AssistItems.Add(request);
-                        await GetResponseWithSuggestion(request).ConfigureAwait(true);
-                        break;
-                    }
+                return;
+            }
 
-                case "Humanize":
-                case "Professional":
-                case "Simple":
-                case "Academic":
-                    {
-                        var request = new AssistItem { Text = inputQuery, IsRequested = true };
-                        AssistItems.Add(request);
-                        await GetResult(request).ConfigureAwait(true);
-                        break;
-                    }
-                case "Grammer Checker":
-                    {
-                        var request = new AssistItem { Text = inputQuery, IsRequested = true };
-                        AssistItems.Add(request);
-                        await GetResult(request).ConfigureAwait(true);
-                        break;
-                    }
-                case "Elaborate":
-                    {
-                        var request = new AssistItem { Text = inputQuery, IsRequested = true };
-                        AssistItems.Add(request);
-                        await GetResult(request).ConfigureAwait(true);
-                        break;
-                    }
-                case "Shorten":
-                    {
-                        var request = new AssistItem { Text = inputQuery, IsRequested = true };
-                        AssistItems.Add(request);
-                        await GetResult(request).ConfigureAwait(true);
-                        break;
-                    }
+            if (inputQuery == "Paraphraser")
+            {
+                var request = new AssistItem { Text = inputQuery, IsRequested = true };
+                AssistItems.Add(request);
+                await GetResponseWithSuggestion(request).ConfigureAwait(true);
+            }
+            else
+            {
+                var request = new AssistItem { Text = inputQuery, IsRequested = true };
+                AssistItems.Add(request);
+                await GetResult(request).ConfigureAwait(true);
             }
         }
 
         /// <summary>
-        /// Generates a response item with a suggestion for improving the provided input and adds it to the collection
-        /// of assist items.
+        /// Generates a response item with a suggestion for improving the provided input and adds it to the collection of assist items.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
         private async Task GetResponseWithSuggestion(object inputQuery)
@@ -224,8 +257,7 @@ namespace RichTextEditorAssistViewSample
         }
 
         /// <summary>
-        /// Processes the specified input query, retrieves a response from the AI service, and adds the result to the
-        /// collection of assist items.
+        /// Processes the specified input query, retrieves a response from the AI service, and adds the result to the collection of assist items.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
         private async Task GetResult(object inputQuery)
@@ -237,15 +269,14 @@ namespace RichTextEditorAssistViewSample
                 var userAIPrompt = GetUserAIPrompt(request.Text, EditorHtml);
                 var response = await azureAIService!.GetResultsFromAI(userAIPrompt).ConfigureAwait(true);
                 response = response.Replace("\n", "<br>");
-                AssistItem responseItem = new AssistItem() { Text = response, Suggestion = GetAcceptSuggestion() };
+                AssistItem responseItem = new AssistItem() { Text = response};
                 responseItem.RequestItem = inputQuery;
                 this.AssistItems.Add(responseItem);
             }
         }
 
         /// <summary>
-        /// Generates an AI prompt string based on the user's command and the provided editor content, tailoring the
-        /// instructions for grammar checking or rephrasing as appropriate.
+        /// Generates an AI prompt string based on the user's command and the provided editor content, tailoring the instructions for grammar checking or rephrasing as appropriate.
         /// </summary>
         /// <returns>A formatted string containing the AI prompt.</returns>
         private string GetUserAIPrompt(string userPrompt, string editorHtmlContent)
@@ -323,21 +354,6 @@ namespace RichTextEditorAssistViewSample
                        "- Keep length roughly similar.\n" +
                        "- Return only the modified text without additional commentary.";
             }
-        }
-
-        /// <summary>
-        /// Creates a suggestion containing a single 'Accept' action item.
-        /// </summary>
-        /// <returns>An <see cref="AssistItemSuggestion"/> instance with one suggestion item labeled 'Accept'.</returns>
-        private AssistItemSuggestion GetAcceptSuggestion()
-        {
-            return new AssistItemSuggestion
-            {
-                Items = new ObservableCollection<ISuggestion>
-                {
-                    new AssistSuggestion { Text = "Accept" },
-                }
-            };
         }
 
         /// <summary>

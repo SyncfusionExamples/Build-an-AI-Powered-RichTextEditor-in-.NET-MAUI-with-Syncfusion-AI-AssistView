@@ -1,5 +1,8 @@
 namespace RichTextEditorAssistViewSample;
 
+/// <summary>
+/// Class representing the assist view page, which serves as a dedicated interface for displaying and interacting with the assist view features in the application.
+/// </summary>
 [QueryProperty(nameof(ViewModel), "vm")]
 public partial class AssistViewPage : ContentPage
 {
@@ -52,7 +55,10 @@ public partial class AssistViewPage : ContentPage
     /// <param name="e"></param>
     private void comboBox_SelectionChanged(object sender, Syncfusion.Maui.Inputs.SelectionChangedEventArgs e)
     {
-        this.viewModel.GetComboBoxSelection(e);
+        if (this.viewModel != null)
+        {
+            this.viewModel.GetComboBoxSelection(e);
+        }
     }
 
     #endregion

@@ -3,6 +3,9 @@
     using Syncfusion.Maui.AIAssistView;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// Class representing the main page of the application, which serves as the primary user interface for interacting with the assist view and related features.
+    /// </summary>
     public partial class MainPage : ContentPage
     {
         #region Field
@@ -33,8 +36,7 @@
         #region Methods
 
         /// <summary>
-        /// Handles the click event for the button, performing platform-specific navigation or UI updates in response to
-        /// user interaction.
+        /// Handles the click event for the button, performing platform-specific navigation or UI updates in response to user interaction.
         /// </summary>
         private async void OnAIButtonClicked(object sender, EventArgs e)
         {

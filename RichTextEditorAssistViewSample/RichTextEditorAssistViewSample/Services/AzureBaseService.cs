@@ -4,6 +4,9 @@ using Microsoft.Extensions.AI;
 
 namespace RichTextEditorAssistViewSample
 {
+    /// <summary>
+    /// Class representing the base service for Azure AI interactions, providing common functionality for validating credentials and managing the chat client used to communicate with Azure's AI services.
+    /// </summary>
     public abstract class AzureBaseService
     {
         #region Fields
@@ -50,10 +53,17 @@ namespace RichTextEditorAssistViewSample
 
         #endregion
 
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the AzureBaseService class and validates the service credentials.
+        /// </summary>
         public AzureBaseService()
         {
             ValidateCredential();
         }
+
+        #endregion
 
         #region Properties
 
@@ -159,15 +169,15 @@ namespace RichTextEditorAssistViewSample
     }
 
     /// <summary>
-    /// Provides functionality for interacting with an Azure-based AI service, enabling the execution of AI-powered
-    /// operations such as generating responses to user prompts.
+    /// Provides functionality for interacting with an Azure-based AI service, enabling the execution of AI-powered operations such as generating responses to user prompts.
     /// </summary>
     public class AzureAIService : AzureBaseService
     {
+        #region Methods
+
         /// <summary>
         /// Method to get the results from AI service.
         /// </summary>
-        /// <param name="userPrompt"></param>
         /// <param name="userAIPrompt"></param>
         /// <returns></returns>
         internal async Task<string> GetResultsFromAI(string userAIPrompt)
@@ -190,5 +200,7 @@ namespace RichTextEditorAssistViewSample
 
             return string.Empty;
         }
+
+        #endregion
     }
 }
