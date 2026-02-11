@@ -189,17 +189,14 @@ namespace RichTextEditorAssistViewSample
         {
             var args = obj as SuggestionItemSelectedEventArgs;
             if (args == null || args.SelectedItem is not ISuggestion s) return;
-
-            // We handle the flow ourselves (don’t show the built-in loader)
-            args.CancelRequest = true;
-            ProcessInput(s.Text);
+            InputProcessing(s.Text);
         }
 
         /// <summary>
-        /// Method to process the input query and perform actions based on its value.
+        /// Processes the specified input query and initiates an asynchronous request based on its value.
         /// </summary>
-        /// <param name="inputQuery"></param>
-        private async void ProcessInput(String inputQuery)
+        /// <param name="inputQuery">The input query to be processed. Cannot be null or empty.</param>
+        private async void InputProcessing(String inputQuery)
         {
             if (string.IsNullOrEmpty(inputQuery))
             {
@@ -209,12 +206,35 @@ namespace RichTextEditorAssistViewSample
             if (inputQuery == "Paraphraser")
             {
                 var request = new AssistItem { Text = inputQuery, IsRequested = true };
-                AssistItems.Add(request);
                 await GetResponseWithSuggestion(request).ConfigureAwait(true);
             }
             else
             {
                 var request = new AssistItem { Text = inputQuery, IsRequested = true };
+                await GetResult(request).ConfigureAwait(true);
+            }
+        }
+
+        /// <summary>
+        /// Processes the specified input from a ComboBox and initiates the appropriate asynchronous request based on the input value.
+        /// </summary>
+        /// <param name="selectedInputQuery">The user input string from the ComboBox to be processed. Cannot be null or empty.</param>
+        private async void ComboBoxInputProcessing(String selectedInputQuery)
+        {
+            if (string.IsNullOrEmpty(selectedInputQuery))
+            {
+                return;
+            }
+
+            if (selectedInputQuery == "Paraphraser")
+            {
+                var request = new AssistItem { Text = selectedInputQuery, IsRequested = true };
+                AssistItems.Add(request);
+                await GetResponseWithSuggestion(request).ConfigureAwait(true);
+            }
+            else
+            {
+                var request = new AssistItem { Text = selectedInputQuery, IsRequested = true };
                 AssistItems.Add(request);
                 await GetResult(request).ConfigureAwait(true);
             }
@@ -393,7 +413,7 @@ namespace RichTextEditorAssistViewSample
 
             if (!string.IsNullOrEmpty(s.FeatureName))
             {
-                ProcessInput(s.FeatureName);
+                ComboBoxInputProcessing(s.FeatureName);
             }
         }
 
