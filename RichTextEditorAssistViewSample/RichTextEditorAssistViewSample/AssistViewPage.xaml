@@ -22,7 +22,7 @@
                                                     Height="80">
                         <editors:DropDownButtonSettings.View>
                             <Label Text="&#xe748;"
-                                   TextColor="Black"
+                                   TextColor="{StaticResource SfRichTextEditorTextColor}"
                                    FontFamily="MauiMaterialAssets"
                                    FontSize="18"
                                    HorizontalTextAlignment="Center"
@@ -41,10 +41,12 @@
                     <Label Text="&#xe7e1;"
                            FontFamily="MauiSampleFontIcon"
                            FontSize="20"
+                           TextColor="{StaticResource SfRichTextEditorTextColor}"
                            HorizontalOptions="Center"
                            VerticalOptions="Center" />
                     <Label Text="How can I help you?"
                            FontAttributes="Bold"
+                           TextColor="{StaticResource SfRichTextEditorTextColor}"
                            FontSize="16"
                            VerticalOptions="Center" />
                 </StackLayout>
@@ -61,11 +63,11 @@
                                         Command="{Binding BindingContext.CopyCommand, Source={x:Reference AssistViewContentPage}}"
                                         CommandParameter="{Binding}"
                                         BackgroundColor="Transparent"
-                                        TextColor="Black"
+                                        TextColor="{StaticResource SfRichTextEditorTextColor}"
                                         FontFamily="MauiMaterialAssets" />
                                 <Button x:Name="retryButton"
                                         Text="&#xe7A2;"
-                                        TextColor="Black"
+                                        TextColor="{StaticResource SfRichTextEditorTextColor}"
                                         Command="{Binding BindingContext.RetryCommand, Source={x:Reference AssistViewContentPage}}"
                                         CommandParameter="{Binding}"
                                         FontSize="18"
@@ -77,7 +79,7 @@
                                         WidthRequest="90"
                                         FontSize="14"
                                         BackgroundColor="Transparent"
-                                        TextColor="#6750A4"
+                                        TextColor="{StaticResource SfButtonNormalBackground}"
                                         Command="{Binding BindingContext.ApplyCommand, Source={x:Reference AssistViewContentPage}}"
                                         CommandParameter="{Binding}"
                                         Padding="15,0,15,5"
@@ -119,6 +121,7 @@
     </ContentPage.Resources>
     <aiassistview:SfAIAssistView x:Name="AssistView"
                                  Grid.Row="1"
+                                 Background="{StaticResource SfRichTextToolbarItemNormalBackground}"
                                  ShowHeader="True"
                                  HeaderTemplate="{StaticResource headerTemplate}"
                                  AssistItems="{Binding AssistItems}"

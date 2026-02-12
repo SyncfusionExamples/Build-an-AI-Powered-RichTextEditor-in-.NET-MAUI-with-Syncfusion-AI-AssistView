@@ -16,11 +16,13 @@
                     <Label Text="&#xe7e1;"
                            FontFamily="MauiSampleFontIcon"
                            FontSize="20"
+                           TextColor="{StaticResource SfRichTextEditorTextColor}"
                            HorizontalOptions="Center"
                            VerticalOptions="Center" />
                     <Label Text="How can I help you?"
                            FontAttributes="Bold"
                            FontSize="16"
+                           TextColor="{StaticResource SfRichTextEditorTextColor}"
                            VerticalOptions="Center" />
                 </StackLayout>
             </DataTemplate>
@@ -36,11 +38,11 @@
                                         Command="{Binding BindingContext.CopyCommand, Source={x:Reference Mainpage}}"
                                         CommandParameter="{Binding}"
                                         BackgroundColor="Transparent"
-                                        TextColor="Black"
+                                        TextColor="{StaticResource SfRichTextEditorTextColor}"
                                         FontFamily="MauiMaterialAssets" />
                                 <Button x:Name="retryButton"
                                         Text="&#xe7A2;"
-                                        TextColor="Black"
+                                        TextColor="{StaticResource SfRichTextEditorTextColor}"
                                         Command="{Binding BindingContext.RetryCommand, Source={x:Reference Mainpage}}"
                                         CommandParameter="{Binding}"
                                         FontSize="18"
@@ -52,7 +54,7 @@
                                         WidthRequest="90"
                                         FontSize="14"
                                         BackgroundColor="Transparent"
-                                        TextColor="#6750A4"
+                                        TextColor="{StaticResource SfButtonNormalBackground}"
                                         Command="{Binding BindingContext.ApplyCommand, Source={x:Reference Mainpage}}"
                                         CommandParameter="{Binding}"
                                         Padding="15,0,15,5"
@@ -117,11 +119,12 @@
 
                 <Grid RowDefinitions="auto,auto">
                     <Grid ColumnDefinitions="*,Auto,Auto"
-                          BackgroundColor="#F7F2FB"
+                          BackgroundColor="{StaticResource SfRichTextToolbarItemNormalBackground}"
                           HeightRequest="50">
                         <Label Text="AI Assistant"
                                Grid.Column="0"
                                FontSize="16"
+                               TextColor="{StaticResource SfRichTextEditorTextColor}"
                                FontFamily="Roboto-Medium"
                                Padding="16,0,0,0"
                                FontAttributes="Bold"
@@ -135,7 +138,7 @@
                                 FontSize="15"
                                 Text="&#xe70b;"
                                 BackgroundColor="#F7F2FB"
-                                TextColor="Black"
+                                TextColor="{StaticResource SfRichTextEditorTextColor}"
                                 HorizontalOptions="End"
                                 Clicked="OnCloseButtonClicked"
                                 FontFamily="MauiMaterialAssets"
@@ -186,7 +189,7 @@
                                     <editors:DropDownButtonSettings.View>
                                         <Label Text="&#xe748;"
                                                BackgroundColor="Transparent"
-                                               TextColor="Black"
+                                               TextColor="{StaticResource SfRichTextEditorTextColor}"
                                                FontFamily="MauiMaterialAssets"
                                                FontSize="15"
                                                HorizontalTextAlignment="Center"
@@ -204,7 +207,7 @@
                 </Grid>
 
                 <aiassistview:SfAIAssistView x:Name="AssistView"
-                                             Background="#F7F2FB"
+                                             Background="{StaticResource SfRichTextToolbarItemNormalBackground}"
                                              Grid.Row="1"
                                              ShowHeader="True"
                                              IsVisible="False"
@@ -221,6 +224,8 @@
         <Button x:Name="AiButton"
                 Grid.Column="1"
                 Text="&#xe7e1;"
+                Background="{StaticResource SfButtonNormalBackground}"
+                TextColor="{StaticResource SfButtonNormalTextColor}"
                 FontFamily="MauiSampleFontIcon"
                 FontSize="14"
                 Padding="2"
