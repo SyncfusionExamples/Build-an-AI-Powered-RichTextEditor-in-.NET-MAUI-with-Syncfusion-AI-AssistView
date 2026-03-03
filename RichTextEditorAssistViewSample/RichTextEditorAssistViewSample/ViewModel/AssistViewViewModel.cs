@@ -57,7 +57,7 @@ namespace RichTextEditorAssistViewSample
             _suggestions = new ObservableCollection<ISuggestion>
             {
                 new AssistSuggestion { Text = "Paraphraser" },
-                new AssistSuggestion { Text = "Grammer Checker" },
+                new AssistSuggestion { Text = "Grammar Checker" },
                 new AssistSuggestion { Text = "Elaborate" },
                 new AssistSuggestion { Text = "Shorten" }
             };
@@ -265,14 +265,14 @@ namespace RichTextEditorAssistViewSample
         private AssistItemSuggestion GetParaphraserSuggestion()
         {
             var promptSuggestions = new AssistItemSuggestion();
-            _suggestions = new ObservableCollection<ISuggestion>
+            var paraphraserSuggestions = new ObservableCollection<ISuggestion>
             {
                 new AssistSuggestion { Text = "Humanize" },
                 new AssistSuggestion { Text = "Professional" },
                 new AssistSuggestion { Text = "Simple" },
                 new AssistSuggestion { Text = "Academic" }
             };
-            promptSuggestions.Items = _suggestions;
+            promptSuggestions.Items = paraphraserSuggestions;
             return promptSuggestions;
         }
 
@@ -304,7 +304,7 @@ namespace RichTextEditorAssistViewSample
             // If the AI expects plain text, strip tags; otherwise pass HTML as-is
             var editorPlainText = StripHtml(editorHtmlContent ?? string.Empty);
 
-            if (string.Equals(userPrompt, "Grammer Checker", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(userPrompt, "Grammar Checker", StringComparison.OrdinalIgnoreCase))
             {
                 return $"Given user command: {userPrompt}.\n" +
                        $"Source text (from editor):\n{editorPlainText}\n\n" +

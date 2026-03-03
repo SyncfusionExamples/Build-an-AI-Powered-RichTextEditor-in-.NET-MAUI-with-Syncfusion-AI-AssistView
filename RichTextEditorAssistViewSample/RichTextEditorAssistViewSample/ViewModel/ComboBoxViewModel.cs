@@ -28,7 +28,7 @@ namespace RichTextEditorAssistViewSample
         {
             this.Features = new ObservableCollection<Feature>();
             this.Features.Add(new Feature() { FeatureName = "Paraphraser" });
-            this.Features.Add(new Feature() { FeatureName = "Grammer Checker" });
+            this.Features.Add(new Feature() { FeatureName = "Grammar Checker" });
             this.Features.Add(new Feature() { FeatureName = "Elaborate" });
             this.Features.Add(new Feature() { FeatureName = "Shorten" });
         }
