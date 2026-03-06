@@ -171,7 +171,7 @@ namespace RichTextEditorAssistViewSample
     /// <summary>
     /// Provides functionality for interacting with an Azure-based AI service, enabling the execution of AI-powered operations such as generating responses to user prompts.
     /// </summary>
-    public class AzureAIService : AzureBaseService
+    public class AzureAIService : AzureBaseService, IAzureAIService
     {
         #region Methods
 
@@ -179,7 +179,7 @@ namespace RichTextEditorAssistViewSample
         /// Method to get the results from AI service.
         /// </summary>
         /// <param name="userAIPrompt"></param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         internal async Task<string> GetResultsFromAI(string userAIPrompt)
         {
             if (IsCredentialValid && Client != null)

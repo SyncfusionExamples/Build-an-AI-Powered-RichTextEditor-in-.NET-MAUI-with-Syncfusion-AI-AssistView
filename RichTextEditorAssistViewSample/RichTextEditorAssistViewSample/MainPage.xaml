@@ -207,7 +207,6 @@
                 </Grid>
 
                 <aiassistview:SfAIAssistView x:Name="AssistView"
-                                             Background="{StaticResource SfRichTextToolbarItemNormalBackground}"
                                              Grid.Row="1"
                                              ShowHeader="True"
                                              IsVisible="False"

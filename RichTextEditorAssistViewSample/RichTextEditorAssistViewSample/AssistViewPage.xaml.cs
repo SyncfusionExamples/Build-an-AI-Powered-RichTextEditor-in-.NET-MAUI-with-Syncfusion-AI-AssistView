@@ -57,7 +57,7 @@ public partial class AssistViewPage : ContentPage
     {
         if (this.viewModel != null)
         {
-            this.viewModel.GetComboBoxSelection(e);
+            this.viewModel?.GetComboBoxSelection(e);
         }
     }
 

@@ -26,7 +26,7 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Field to hold the Azure AI service instance.
         /// </summary>
-        private AzureAIService azureAIService;
+        private readonly IAzureAIService azureAIService;
 
         /// <summary>
         /// Field to hold the suggestion item selected command.
@@ -50,9 +50,9 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Initializes a new instance of the AssistViewViewModel class with default assist items, suggestions, and command bindings.
         /// </summary>
-        public AssistViewViewModel()
+        public AssistViewViewModel(IAzureAIService azureAIService)
         {
-            azureAIService = new AzureAIService();
+            this.azureAIService = azureAIService;
             this._assistItems = new ObservableCollection<IAssistItem>();
             _suggestions = new ObservableCollection<ISuggestion>
             {
@@ -62,10 +62,10 @@ namespace RichTextEditorAssistViewSample
                 new AssistSuggestion { Text = "Shorten" }
             };
 
-            this.SuggestionItemSelectedCommand = new Command(OnSuggestionTapCommand);
-            this.CopyCommand = new Command<object>(ExecuteCopyCommand);
-            this.RetryCommand = new Command<object>(ExecuteRetryCommand);
-            this.ApplyCommand = new Command<object>(ExecuteApplyCommand);
+            this.SuggestionItemSelectedCommand = new Command(obj => _ = OnSuggestionTapCommandAsync(obj));
+            this.CopyCommand = new Command(async (obj) => await ExecuteCopyCommand(obj));
+            this.RetryCommand = new Command(async (obj) => await ExecuteRetryCommandAsync(obj));
+            this.ApplyCommand = new Command(async (obj) => await ExecuteApplyCommand(obj));
         }
 
         #endregion
@@ -75,17 +75,17 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Gets or sets the command that copies the selected content to the clipboard.
         /// </summary>
-        public ICommand CopyCommand { get; set; }
+        public ICommand CopyCommand { get;}
 
         /// <summary>
         /// Gets or sets the command that executes a retry operation.
         /// </summary>
-        public ICommand RetryCommand { get; set; }
+        public ICommand RetryCommand { get;}
 
         /// <summary>
         /// Gets or sets the command that applies the current changes or settings.
         /// </summary>
-        public ICommand ApplyCommand { get; set; }
+        public ICommand ApplyCommand { get;}
 
         /// <summary>
         /// Gets or sets the collection of assist items associated with this instance.
@@ -100,7 +100,7 @@ namespace RichTextEditorAssistViewSample
             set
             {
                 this._assistItems = value;
-                RaisePropertyChanged("AssistItems");
+                RaisePropertyChanged();
             }
         }
 
@@ -147,8 +147,9 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Method to execute the copy command, which copies the text of the selected assist item to the clipboard.
         /// </summary>
-        /// <param name="obj"></param>
-        private void ExecuteApplyCommand(object obj)
+        /// <param name="obj">The object.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        private async Task ExecuteApplyCommand(object obj)
         {
             if (obj is AssistItem assistItem && assistItem.Text != null)
             {
@@ -159,21 +160,24 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Copies the plain text content of the specified assist item to the clipboard, removing any HTML tags and non-breaking spaces.
         /// </summary>
-        /// <param name="obj"></param>
-        private void ExecuteCopyCommand(object obj)
+        /// <param name="obj">The object.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        private async Task ExecuteCopyCommand(object obj)
         {
             if (obj is AssistItem assistItem && assistItem.Text != null)
             {
                 string text = assistItem.Text;
                 text = Regex.Replace(text, "<.*?>|&nbsp;", string.Empty);
-                Clipboard.SetTextAsync(text);
+                await Clipboard.SetTextAsync(text);
             }
         }
 
         /// <summary>
-        /// Attempts to execute a retry operation for the specified assist item, if the provided object is compatible.
+        /// Attempts to execute a retry command asynchronously using the specified object as context.
         /// </summary>
-        private async void ExecuteRetryCommand(object obj)
+        /// <param name="obj">The object</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        private async Task ExecuteRetryCommandAsync(object obj)
         {
             if (obj is AssistItem assistItem && assistItem.RequestItem is IAssistItem item)
             {
@@ -185,18 +189,21 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Handles the tap event for a suggestion item, executing the appropriate action based on the selected suggestion.
         /// </summary>
-        private async void OnSuggestionTapCommand(object obj)
+        /// <param name="obj">The object</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        private async Task OnSuggestionTapCommandAsync(object obj)
         {
             var args = obj as SuggestionItemSelectedEventArgs;
             if (args == null || args.SelectedItem is not ISuggestion s) return;
-            InputProcessing(s.Text);
+            await InputProcessingAsync(s.Text).ConfigureAwait(true);
         }
 
         /// <summary>
         /// Processes the specified input query and initiates an asynchronous request based on its value.
         /// </summary>
         /// <param name="inputQuery">The input query to be processed. Cannot be null or empty.</param>
-        private async void InputProcessing(String inputQuery)
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        private async Task InputProcessingAsync(string inputQuery)
         {
             if (string.IsNullOrEmpty(inputQuery))
             {
@@ -219,7 +226,8 @@ namespace RichTextEditorAssistViewSample
         /// Processes the specified input from a ComboBox and initiates the appropriate asynchronous request based on the input value.
         /// </summary>
         /// <param name="selectedInputQuery">The user input string from the ComboBox to be processed. Cannot be null or empty.</param>
-        private async void ComboBoxInputProcessing(String selectedInputQuery)
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        private async Task ComboBoxInputProcessingAsync(string selectedInputQuery)
         {
             if (string.IsNullOrEmpty(selectedInputQuery))
             {
@@ -243,6 +251,7 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Generates a response item with a suggestion for improving the provided input and adds it to the collection of assist items.
         /// </summary>
+        /// <param name="inputQuery">The input query for which to generate a response with a suggestion. Cannot be null.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         private async Task GetResponseWithSuggestion(object inputQuery)
         {
@@ -279,6 +288,7 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Processes the specified input query, retrieves a response from the AI service, and adds the result to the collection of assist items.
         /// </summary>
+        /// <param name="inputQuery">The input query to be processed and sent to the AI service. Cannot be null.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         private async Task GetResult(object inputQuery)
         {
@@ -298,6 +308,8 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Generates an AI prompt string based on the user's command and the provided editor content, tailoring the instructions for grammar checking or rephrasing as appropriate.
         /// </summary>
+        /// <param name="editorHtmlContent">The HTML content from the editor to be included in the AI prompt. Can be null or empty.</param>
+        /// <param name="userPrompt">The user's command or prompt that indicates the desired AI operation (e.g., "Grammar Checker", "Elaborate", "Shorten"). Cannot be null or empty.</param>
         /// <returns>A formatted string containing the AI prompt.</returns>
         private string GetUserAIPrompt(string userPrompt, string editorHtmlContent)
         {
@@ -380,6 +392,7 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Ensures that the specified content is formatted as HTML.
         /// </summary>
+        /// <param name="content">The content to be formatted as HTML. Can be null or empty.</param>
         /// <returns>A string containing the HTML-formatted content.</returns>
         private static string EnsureHtml(string content)
         {
@@ -391,6 +404,7 @@ namespace RichTextEditorAssistViewSample
         /// <summary>
         /// Removes all HTML tags from the specified string.
         /// </summary>
+        /// <param name="html">The string containing HTML content to be stripped of tags. Can be null or empty.</param>
         /// <returns>A string with all HTML tags removed. Returns an empty string if the input is null or empty.</returns>
         private static string StripHtml(string html) =>
             string.IsNullOrEmpty(html) ? string.Empty : Regex.Replace(html, "<.*?>", string.Empty);
@@ -414,7 +428,7 @@ namespace RichTextEditorAssistViewSample
 
             if (!string.IsNullOrEmpty(s.FeatureName))
             {
-                ComboBoxInputProcessing(s.FeatureName);
+                _ = ComboBoxInputProcessingAsync(s.FeatureName);
             }
         }
 
@@ -431,12 +445,9 @@ namespace RichTextEditorAssistViewSample
         /// Occurs when property is changed.
         /// </summary>
         /// <param name="propName">changed property name</param>
-        public void RaisePropertyChanged(string propName)
+        public void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string? propName = null)
         {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName ?? string.Empty));
         }
 
         #endregion

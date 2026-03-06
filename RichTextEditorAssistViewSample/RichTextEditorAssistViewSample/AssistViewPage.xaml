@@ -121,7 +121,6 @@
     </ContentPage.Resources>
     <aiassistview:SfAIAssistView x:Name="AssistView"
                                  Grid.Row="1"
-                                 Background="{StaticResource SfRichTextToolbarItemNormalBackground}"
                                  ShowHeader="True"
                                  HeaderTemplate="{StaticResource headerTemplate}"
                                  AssistItems="{Binding AssistItems}"

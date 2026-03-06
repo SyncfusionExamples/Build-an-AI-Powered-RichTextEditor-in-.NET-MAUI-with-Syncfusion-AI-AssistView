@@ -1,6 +1,7 @@
 ﻿namespace RichTextEditorAssistViewSample
 {
     using Syncfusion.Maui.AIAssistView;
+    using Microsoft.Extensions.DependencyInjection;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -25,7 +26,8 @@
         public MainPage()
         {
             InitializeComponent();
-            assistViewViewModel = new AssistViewViewModel();
+            var ai = ServiceHelper.Services.GetRequiredService<IAzureAIService>();
+            assistViewViewModel = new AssistViewViewModel(ai);
             this.BindingContext = assistViewViewModel;
             ComboBoxViewModel comboBoxViewModel = new ComboBoxViewModel();
             comboBox.ItemsSource = comboBoxViewModel.Features;

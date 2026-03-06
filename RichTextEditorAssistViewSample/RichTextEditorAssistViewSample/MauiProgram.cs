@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Core.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace RichTextEditorAssistViewSample
 {
@@ -18,11 +19,15 @@ namespace RichTextEditorAssistViewSample
                     fonts.AddFont("MauiSampleFontIcon.ttf", "MauiSampleFontIcon");
                 });
 
-#if DEBUG
-    		builder.Logging.AddDebug();
-#endif
+            // DI registrations
+            builder.Services.AddSingleton<IAzureAIService, AzureAIService>();
 
-            return builder.Build();
+#if DEBUG
+            builder.Logging.AddDebug();
+#endif
+            var app = builder.Build();
+            ServiceHelper.CurrentServices = app.Services;
+            return app;
         }
     }
 }
