@@ -40,6 +40,8 @@
         /// <summary>
         /// Handles the click event for the button, performing platform-specific navigation or UI updates in response to user interaction.
         /// </summary>
+        /// <param name="sender">The sender of the event, typically the button that was clicked.</param>
+        /// <param name="e">Event arguments associated with the button click event.</param>
         private async void OnAIButtonClicked(object sender, EventArgs e)
         {
 #if ANDROID || (IOS && !MACCATALYST)
@@ -62,11 +64,12 @@
         /// <summary>
         /// Handles the click event for the close button, hiding the header and assist views.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender of the event, typically the button that was clicked.</param>
+        /// <param name="e">Event arguments associated with the button click event.</param>
         private void OnCloseButtonClicked(object sender, EventArgs e)
         {
             Grid.SetColumnSpan(richTextEditor, 2);
+            this.assistViewViewModel.AssistItems.Clear();
             assistViewGrid.IsVisible = false;
             headerView.IsVisible = false;
             AssistView.IsVisible = false;
