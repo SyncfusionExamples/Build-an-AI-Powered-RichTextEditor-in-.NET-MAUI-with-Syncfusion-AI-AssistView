@@ -101,7 +101,7 @@ OnSuggestionTapCommand
 
 ## Screenshot
 
-![AI Powered RichTextEditor in .NET MAUI ImageEditor](AIPoweredRichTextEditor.gif)
+![AI Powered RichTextEditor in .NET MAUI](AIPoweredRichTextEditor.gif)
 
 ## Documentation
 
