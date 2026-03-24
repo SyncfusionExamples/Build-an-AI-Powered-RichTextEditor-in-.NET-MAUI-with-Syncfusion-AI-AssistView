@@ -1,4 +1,4 @@
-# Build-an-AI-Powered-RichTextEditor-in-.NET-MAUI-with-Syncfusion-AI-AssistView
+# Build an AI Powered RichTextEditor in .NET MAUI with Syncfusion AI AssistView
 
 This repository demonstrates how to build an AI‑assisted writing experience in .NET MAUI by integrating Syncfusion’s RichTextEditor with the AI AssistView component. It showcases paraphrasing, tone adjustments, grammar checks, elaboration, and shortening powered by an Azure OpenAI backend.
 
@@ -92,6 +92,16 @@ handles the request.
 * Verify SuggestionItemSelectedCommand is bound to 
 OnSuggestionTapCommand
 * Check that _suggestions collection is populated in the ViewModel constructor
+
+### Path Too Long Exception
+
+* If you are facing a path too long exception when building this example project, close Visual Studio and rename the repository to a shorter name, then rebuild the project.
+
+* For a step-by-step procedure, refer to the [link](https://support.syncfusion.com/kb/article/2255/how-to-resolve-path-too-long-error-in-syncfusion-samples).
+
+## Screenshot
+
+![AI Powered RichTextEditor in .NET MAUI ImageEditor](AIPoweredRichTextEditor.gif)
 
 ## Documentation
 
