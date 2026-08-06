@@ -43,5 +43,4 @@ namespace RichTextEditorAssistViewSample
     {
         public string? FeatureName { get; set; }
     }
-
 }
