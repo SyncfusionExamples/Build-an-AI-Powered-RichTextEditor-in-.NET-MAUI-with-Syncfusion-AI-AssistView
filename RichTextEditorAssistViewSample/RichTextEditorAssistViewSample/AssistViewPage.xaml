@@ -122,6 +122,7 @@
     <aiassistview:SfAIAssistView x:Name="AssistView"
                                  Grid.Row="1"
                                  ShowHeader="True"
+                                 EnableConversationHistory="False"
                                  HeaderTemplate="{StaticResource headerTemplate}"
                                  AssistItems="{Binding AssistItems}"
                                  Suggestions="{Binding Suggestions}"

@@ -5,7 +5,8 @@
              xmlns:local="clr-namespace:RichTextEditorAssistViewSample"
              xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              xmlns:rte="clr-namespace:Syncfusion.Maui.RichTextEditor;assembly=Syncfusion.Maui.RichTextEditor"
-             xmlns:aiassistview="clr-namespace:Syncfusion.Maui.AIAssistView;assembly=Syncfusion.Maui.AIAssistView">
+             xmlns:aiassistview="clr-namespace:Syncfusion.Maui.AIAssistView;assembly=Syncfusion.Maui.AIAssistView"
+             x:Name="Mainpage">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -96,7 +97,7 @@
     </ContentPage.Resources>
 
     <Grid x:Name="layout"
-          Margin="5">
+          Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="7.2*" />
             <ColumnDefinition Width="2.8*" />
@@ -108,25 +109,25 @@
                               ShowToolbar="True"
                               HtmlText="{Binding EditorHtml, Mode=TwoWay}" />
         <Border x:Name="headerView"
-                Margin="-1,0,0,0"
+                Margin="0,0,0,0"
                 Grid.Column="1"
                 IsVisible="False"
-                StrokeThickness="0.5"
+                StrokeThickness="0"
                 Stroke="Gray">
             <Grid x:Name="assistViewGrid"
-                  HorizontalOptions="End"
+                  HorizontalOptions="Fill"
                   RowDefinitions="Auto,*">
 
                 <Grid RowDefinitions="auto,auto">
                     <Grid ColumnDefinitions="*,Auto,Auto"
                           BackgroundColor="{StaticResource SfRichTextToolbarItemNormalBackground}"
-                          HeightRequest="50">
+                          HeightRequest="49">
                         <Label Text="AI Assistant"
                                Grid.Column="0"
                                FontSize="16"
                                TextColor="{StaticResource SfRichTextEditorTextColor}"
                                FontFamily="Roboto-Medium"
-                               Padding="16,0,0,0"
+                               Padding="10,0,0,0"
                                FontAttributes="Bold"
                                VerticalOptions="Center" />
                         <Button x:Name="close"
@@ -200,13 +201,14 @@
                         </editors:SfComboBox>
 
                     </Grid>
-                    <Grid Grid.Row="1"
+                    <BoxView Grid.Row="1"
                           HeightRequest="0.5"
                           Background="Gray">
-                    </Grid>
+                    </BoxView>
                 </Grid>
 
                 <aiassistview:SfAIAssistView x:Name="AssistView"
+                                             EnableConversationHistory="False"
                                              Grid.Row="1"
                                              ShowHeader="True"
                                              IsVisible="False"

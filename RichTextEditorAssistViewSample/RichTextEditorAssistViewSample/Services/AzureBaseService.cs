@@ -180,7 +180,7 @@ namespace RichTextEditorAssistViewSample
         /// </summary>
         /// <param name="userAIPrompt"></param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        internal async Task<string> GetResultsFromAI(string userAIPrompt)
+        public async Task<string> GetResultsFromAI(string userAIPrompt)
         {
             if (IsCredentialValid && Client != null)
             {
