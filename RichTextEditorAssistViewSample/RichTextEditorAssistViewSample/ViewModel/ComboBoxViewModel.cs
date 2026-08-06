@@ -35,4 +35,12 @@ namespace RichTextEditorAssistViewSample
 
         #endregion
     }
+
+    /// <summary>
+    /// Class representing a feature that can be displayed in the combo box. It contains a single property for the feature name.
+    /// </summary>
+    public class Feature
+    {
+        public string? FeatureName { get; set; }
+    }
 }
