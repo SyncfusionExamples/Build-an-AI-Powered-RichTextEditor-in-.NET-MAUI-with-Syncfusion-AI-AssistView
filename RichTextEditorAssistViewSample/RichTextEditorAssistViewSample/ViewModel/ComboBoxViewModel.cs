@@ -35,4 +35,14 @@ namespace RichTextEditorAssistViewSample
 
         #endregion
     }
+
+    public class Feature
+    {
+        #region Properties
+        /// <summary>
+        /// Gets or sets the name of the feature.
+        /// </summary>
+        public string FeatureName { get; set; } = string.Empty;
+        #endregion
+    }
 }

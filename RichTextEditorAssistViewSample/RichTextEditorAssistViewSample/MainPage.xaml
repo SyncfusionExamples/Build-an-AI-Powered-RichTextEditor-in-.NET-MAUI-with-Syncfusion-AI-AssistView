@@ -106,7 +106,7 @@
                               Grid.ColumnSpan="2"
                               x:Name="richTextEditor"
                               ShowToolbar="True"
-                              HtmlText="{Binding EditorHtml, Mode=TwoWay}" />
+                              Value="{Binding EditorHtml, Mode=TwoWay}" />
         <Border x:Name="headerView"
                 Margin="-1,0,0,0"
                 Grid.Column="1"
